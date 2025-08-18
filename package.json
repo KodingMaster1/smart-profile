@@ -1,0 +1,22 @@
+{
+  "name": "smart-profile-app",
+  "version": "1.0.0",
+  "description": "Smart Profile Application with Auto-Push functionality",
+  "main": "auto-push.js",
+  "scripts": {
+    "start": "node auto-push.js",
+    "watch": "node auto-push.js",
+    "dev": "node auto-push.js"
+  },
+  "keywords": [
+    "smart-profile",
+    "auto-push",
+    "git",
+    "automation"
+  ],
+  "author": "KodingMaster1",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 
