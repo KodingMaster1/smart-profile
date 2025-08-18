@@ -368,7 +368,7 @@ export default async function JobDetailsPage({
                     <div 
                       className="bg-green-500 h-2 rounded-full" 
                       style={{ 
-                        width: `${((profile?.skills?.filter(skill => job.requirements.includes(skill)).length || 0) / job.requirements.length) * 100}%` 
+                        width: `${((profile?.skills?.filter((skill: string) => job.requirements.includes(skill)).length || 0) / job.requirements.length) * 100}%` 
                       }}
                     ></div>
                   </div>
