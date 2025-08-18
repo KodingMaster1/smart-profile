@@ -18,10 +18,7 @@ export default function HomePage() {
               <Link href="#about" className="text-gray-600 hover:text-gray-900">About</Link>
             </nav>
             <div className="flex items-center space-x-4">
-              <Link href="/auth/login" className="text-gray-600 hover:text-gray-900">
-                Sign In
-              </Link>
-              <Link href="/auth/register" className="btn-primary">
+              <Link href="/dashboard" className="btn-primary">
                 Get Started
               </Link>
             </div>
@@ -42,7 +39,7 @@ export default function HomePage() {
               Let Smart Profile transform your job search experience.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/auth/register" className="btn-primary text-lg px-8 py-3">
+              <Link href="/dashboard" className="btn-primary text-lg px-8 py-3">
                 Start Building Your Profile
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
@@ -119,7 +116,7 @@ export default function HomePage() {
           <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
             Join thousands of professionals who have already discovered their dream jobs with Smart Profile.
           </p>
-          <Link href="/auth/register" className="bg-white text-primary-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+          <Link href="/dashboard" className="bg-white text-primary-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors duration-200">
             Get Started Free
           </Link>
         </div>
