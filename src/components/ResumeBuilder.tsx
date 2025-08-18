@@ -68,11 +68,11 @@ export default function ResumeBuilder({ userProfile, existingResumes }: ResumeBu
         website: ''
       },
       summary: '',
-      experience: [],
-      education: [],
-      skills: [],
-      certifications: [],
-      projects: []
+      experience: [] as any[],
+      education: [] as any[],
+      skills: [] as string[],
+      certifications: [] as any[],
+      projects: [] as any[]
     }
   })
   const [activeSection, setActiveSection] = useState('personal')
