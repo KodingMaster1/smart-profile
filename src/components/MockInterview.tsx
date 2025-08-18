@@ -270,7 +270,7 @@ export default function MockInterview({ userProfile, interviewHistory }: MockInt
                   onClick={stopInterview}
                   className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700"
                 >
-                  <Stop className="h-4 w-4 mr-2" />
+                  <Square className="h-4 w-4 mr-2" />
                   End Interview
                 </button>
               </div>
