@@ -1,0 +1,17 @@
+{
+  "/_not-found": "app/_not-found.js",
+  "/applications/page": "app/applications/page.js",
+  "/auth/callback/route": "app/auth/callback/route.js",
+  "/auth/login/page": "app/auth/login/page.js",
+  "/auth/register/page": "app/auth/register/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/auth/signout/route": "app/auth/signout/route.js",
+  "/interview/page": "app/interview/page.js",
+  "/jobs/[id]/page": "app/jobs/[id]/page.js",
+  "/jobs/page": "app/jobs/page.js",
+  "/notifications/page": "app/notifications/page.js",
+  "/page": "app/page.js",
+  "/portfolio/page": "app/portfolio/page.js",
+  "/profile/page": "app/profile/page.js",
+  "/resume/page": "app/resume/page.js"
+}
