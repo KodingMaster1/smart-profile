@@ -213,7 +213,7 @@ export default async function DashboardPage() {
                   </div>
                 </div>
                 
-                {applicationsCount > 0 && (
+                {applicationsCount && applicationsCount > 0 && (
                   <div className="flex items-center">
                     <div className="p-2 bg-green-100 rounded-lg">
                       <FileText className="h-4 w-4 text-green-600" />
