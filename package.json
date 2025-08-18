@@ -2,21 +2,51 @@
   "name": "smart-profile-app",
   "version": "1.0.0",
   "description": "Smart Profile Application with Auto-Push functionality",
-  "main": "auto-push.js",
+  "private": true,
   "scripts": {
-    "start": "node auto-push.js",
-    "watch": "node auto-push.js",
-    "dev": "node auto-push.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "auto-push": "node auto-push.js"
+  },
+  "dependencies": {
+    "next": "14.0.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "@supabase/supabase-js": "^2.38.0",
+    "@supabase/auth-helpers-nextjs": "^0.8.7",
+    "@supabase/auth-helpers-react": "^0.4.2",
+    "@supabase/auth-ui-react": "^0.4.6",
+    "@supabase/auth-ui-shared": "^0.1.8",
+    "zustand": "^4.4.6",
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.0.1",
+    "postcss": "^8",
+    "lucide-react": "^0.292.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.0"
   },
   "keywords": [
     "smart-profile",
     "auto-push",
     "git",
-    "automation"
+    "automation",
+    "nextjs",
+    "supabase",
+    "vercel"
   ],
   "author": "KodingMaster1",
   "license": "MIT",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   }
 } 
