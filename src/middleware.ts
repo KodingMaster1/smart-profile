@@ -2,9 +2,8 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
-    request,
-  })
+  // Create a response object that we'll mutate when Supabase sets/removes cookies
+  let response = NextResponse.next()
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -15,18 +14,10 @@ export async function middleware(request: NextRequest) {
           return request.cookies.get(name)?.value
         },
         set(name: string, value: string, options: any) {
-          request.cookies.set(name, value)
-          supabaseResponse = NextResponse.next({
-            request,
-          })
-          supabaseResponse.cookies.set(name, value, options)
+          response.cookies.set(name, value, options)
         },
         remove(name: string, options: any) {
-          request.cookies.set(name, '')
-          supabaseResponse = NextResponse.next({
-            request,
-          })
-          supabaseResponse.cookies.set(name, '', { ...options, maxAge: 0 })
+          response.cookies.set(name, '', { ...options, maxAge: 0 })
         },
       },
     }
@@ -59,7 +50,7 @@ export async function middleware(request: NextRequest) {
   //    myNewResponse.cookies.setAll(supabaseResponse.cookies.getAll())
   // 3. Change the myNewResponse object instead of the supabaseResponse object
 
-  return supabaseResponse
+  return response
 }
 
 export const config = {
