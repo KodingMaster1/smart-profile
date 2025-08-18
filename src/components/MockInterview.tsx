@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase-client'
 import { 
   Play, 
   Pause, 
-  Stop, 
+  Square, 
   Mic, 
   MicOff,
   MessageSquare,
