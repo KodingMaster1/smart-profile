@@ -1,215 +1,197 @@
 # Supabase Setup Guide for Smart Profile App
 
-This guide will help you set up Supabase for the Smart Profile application.
+## 🚀 Quick Setup Steps
 
-## 🚀 Step 1: Create a Supabase Project
+### 1. Environment Variables Setup
 
-1. Go to [supabase.com](https://supabase.com)
-2. Sign up or log in to your account
-3. Click "New Project"
-4. Choose your organization
-5. Enter project details:
-   - **Name**: `smart-profile-app`
-   - **Database Password**: Create a strong password
-   - **Region**: Choose the closest region to your users
-6. Click "Create new project"
-7. Wait for the project to be created (this may take a few minutes)
-
-## 🗄️ Step 2: Set Up Database Schema
-
-1. In your Supabase dashboard, go to the **SQL Editor**
-2. Click "New Query"
-3. Copy and paste the entire contents of `supabase-schema.sql` into the editor
-4. Click "Run" to execute the schema
-5. Verify that all tables and policies were created successfully
-
-## 🔐 Step 3: Configure Authentication
-
-1. Go to **Authentication** → **Settings**
-2. Configure the following settings:
-
-### Site URL
-- Add your Vercel deployment URL (e.g., `https://your-app.vercel.app`)
-- Add `http://localhost:3000` for local development
-
-### Email Templates
-- Customize the email templates for:
-  - Confirm signup
-  - Magic link
-  - Change email address
-  - Reset password
-
-### Auth Providers (Optional)
-- Enable Google, GitHub, or other providers if desired
-- Configure OAuth settings for each provider
-
-## 🔑 Step 4: Get API Keys
-
-1. Go to **Settings** → **API**
-2. Copy the following values:
-   - **Project URL** (e.g., `https://your-project.supabase.co`)
-   - **Anon public key** (starts with `eyJ...`)
-
-## 🌍 Step 5: Configure Environment Variables
-
-### For Local Development
-Create a `.env.local` file in your project root:
+Create a `.env.local` file in your project root with these variables:
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=https://zswsyjxnnvcuwkyqkfun.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzd3N5anhubnZjdXdreXFrZnVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU1NDU0MzIsImV4cCI6MjA3MTEyMTQzMn0.YkTHhIP_gPuKD4UjOEb84gZAys_ewibxjLdd2UhCa10
+
+# Service Role Key (for admin operations - keep secret)
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzd3N5anhubnZjdXdreXFrZnVuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTU0NTQzMiwiZXhwIjoyMDcxMTIxNDMyfQ.pOVaqxImj9QzhmhOK-lR83dfgZ4EmnBqTOpsUKhJzc8
+
+# JWT Secret
+SUPABASE_JWT_SECRET=vBgKTzr8llhS8MKMcUfAobDI67vzbFL6VdqCTX1KWFqkRkKBC2FG2JUw7JBoAl2oACtyolMoyXsex/W3ZNVlRQ==
+
+# OpenAI API Key (for AI features - add your own key)
+OPENAI_API_KEY=your_openai_api_key_here
 ```
 
-### For Vercel Deployment
-1. Go to your Vercel project dashboard
-2. Navigate to **Settings** → **Environment Variables**
-3. Add the following variables:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+### 2. Database Schema Setup
 
-## 📧 Step 6: Configure Email Settings (Optional)
+1. **Go to your Supabase Dashboard**: https://supabase.com/dashboard/project/zswsyjxnnvcuwkyqkfun
+2. **Navigate to SQL Editor** (left sidebar)
+3. **Create a new query** and paste the entire contents of `supabase-schema.sql`
+4. **Run the query** to create all tables, policies, and sample data
 
-1. Go to **Settings** → **Auth** → **SMTP Settings**
-2. Configure your SMTP provider (SendGrid, Mailgun, etc.)
-3. Test the email configuration
+### 3. Authentication Setup
 
-## 🗂️ Step 7: Set Up Storage (Optional)
+1. **Go to Authentication > Settings** in your Supabase dashboard
+2. **Configure Site URL**: Add your local development URL (e.g., `http://localhost:3000`)
+3. **Add Redirect URLs**:
+   - `http://localhost:3000/auth/callback`
+   - `http://localhost:3000/dashboard`
+   - Your production URL when deployed
 
-1. Go to **Storage**
-2. Create a new bucket called `resumes`
-3. Set the bucket to private
-4. Create a new bucket called `portfolios`
-5. Set the bucket to public
+### 4. Email Templates (Optional)
 
-### Storage Policies
-Add the following policies to your storage buckets:
+1. **Go to Authentication > Email Templates**
+2. **Customize the email templates** for:
+   - Confirm signup
+   - Magic link
+   - Change email address
+   - Reset password
 
-#### For `resumes` bucket:
+### 5. Storage Setup (Optional)
+
+1. **Go to Storage** in your Supabase dashboard
+2. **Create a new bucket** called `resumes`
+3. **Set up RLS policies** for the bucket:
+
 ```sql
 -- Allow users to upload their own resumes
 CREATE POLICY "Users can upload own resumes" ON storage.objects
-FOR INSERT WITH CHECK (
-  bucket_id = 'resumes' AND 
-  auth.uid()::text = (storage.foldername(name))[1]
-);
+FOR INSERT WITH CHECK (bucket_id = 'resumes' AND auth.uid()::text = (storage.foldername(name))[1]);
 
 -- Allow users to view their own resumes
 CREATE POLICY "Users can view own resumes" ON storage.objects
-FOR SELECT USING (
-  bucket_id = 'resumes' AND 
-  auth.uid()::text = (storage.foldername(name))[1]
-);
+FOR SELECT USING (bucket_id = 'resumes' AND auth.uid()::text = (storage.foldername(name))[1]);
 
 -- Allow users to update their own resumes
 CREATE POLICY "Users can update own resumes" ON storage.objects
-FOR UPDATE USING (
-  bucket_id = 'resumes' AND 
-  auth.uid()::text = (storage.foldername(name))[1]
-);
+FOR UPDATE USING (bucket_id = 'resumes' AND auth.uid()::text = (storage.foldername(name))[1]);
 
 -- Allow users to delete their own resumes
 CREATE POLICY "Users can delete own resumes" ON storage.objects
-FOR DELETE USING (
-  bucket_id = 'resumes' AND 
-  auth.uid()::text = (storage.foldername(name))[1]
-);
+FOR DELETE USING (bucket_id = 'resumes' AND auth.uid()::text = (storage.foldername(name))[1]);
 ```
 
-#### For `portfolios` bucket:
-```sql
--- Allow users to upload portfolio images
-CREATE POLICY "Users can upload portfolio images" ON storage.objects
-FOR INSERT WITH CHECK (
-  bucket_id = 'portfolios' AND 
-  auth.uid()::text = (storage.foldername(name))[1]
-);
+## 🗄️ Database Tables Created
 
--- Allow public access to portfolio images
-CREATE POLICY "Public access to portfolio images" ON storage.objects
-FOR SELECT USING (bucket_id = 'portfolios');
+The schema creates the following tables:
 
--- Allow users to update their portfolio images
-CREATE POLICY "Users can update portfolio images" ON storage.objects
-FOR UPDATE USING (
-  bucket_id = 'portfolios' AND 
-  auth.uid()::text = (storage.foldername(name))[1]
-);
+- **`profiles`** - User profile information
+- **`jobs`** - Job listings
+- **`applications`** - Job applications
+- **`resumes`** - User resumes
+- **`interviews`** - Mock interview sessions
+- **`portfolios`** - User portfolios
+- **`projects`** - Portfolio projects
+- **`portfolio_views`** - Portfolio analytics
+- **`notifications`** - User notifications
+- **`alert_settings`** - User notification preferences
 
--- Allow users to delete their portfolio images
-CREATE POLICY "Users can delete portfolio images" ON storage.objects
-FOR DELETE USING (
-  bucket_id = 'portfolios' AND 
-  auth.uid()::text = (storage.foldername(name))[1]
-);
-```
+## 🔐 Security Features
 
-## 🔍 Step 8: Test the Setup
+- **Row Level Security (RLS)** enabled on all tables
+- **Custom policies** ensure users can only access their own data
+- **Public access** for job listings and public portfolios
+- **Automatic profile creation** when users sign up
 
-1. Start your development server: `npm run dev`
-2. Go to `http://localhost:3000`
-3. Try to register a new user
-4. Verify that:
-   - User registration works
-   - Profile is automatically created
-   - Alert settings are automatically created
-   - You can log in and access the dashboard
+## 🧪 Testing the Setup
 
-## 📊 Step 9: Monitor and Debug
+1. **Start your development server**:
+   ```bash
+   npm run dev
+   ```
 
-### Check Logs
-1. Go to **Logs** in your Supabase dashboard
-2. Monitor for any errors or issues
+2. **Visit** `http://localhost:3000`
 
-### Database Inspector
-1. Go to **Table Editor**
-2. Verify that tables are created correctly
-3. Check that sample data was inserted
+3. **Try to register** a new user account
 
-### Real-time
-1. Go to **Database** → **Replication**
-2. Enable real-time for tables that need it (optional)
+4. **Check the database** to see if a profile was automatically created
 
 ## 🚨 Troubleshooting
 
-### Common Issues
+### Common Issues:
 
-1. **"Invalid API key" error**
-   - Verify your environment variables are correct
-   - Make sure you're using the anon key, not the service role key
+1. **"Invalid API key" error**:
+   - Check that your environment variables are correctly set
+   - Restart your development server after changing `.env.local`
 
-2. **"Row Level Security" errors**
-   - Check that RLS policies are created correctly
-   - Verify user authentication is working
+2. **"Table doesn't exist" error**:
+   - Make sure you ran the `supabase-schema.sql` script
+   - Check that all tables were created successfully
 
-3. **"Email not sent" errors**
-   - Check SMTP configuration
-   - Verify email templates are set up
+3. **Authentication redirect issues**:
+   - Verify your redirect URLs in Supabase Auth settings
+   - Check that your site URL is correctly configured
 
-4. **"Storage access denied" errors**
-   - Check storage bucket policies
-   - Verify bucket permissions
+4. **RLS policy errors**:
+   - Ensure you're logged in when testing protected routes
+   - Check that the user has the correct permissions
 
-### Getting Help
+## 📊 Database Schema Overview
 
-- Check the [Supabase Documentation](https://supabase.com/docs)
-- Visit the [Supabase Community](https://github.com/supabase/supabase/discussions)
-- Review the [Next.js + Supabase Guide](https://supabase.com/docs/guides/getting-started/tutorials/with-nextjs)
+```mermaid
+erDiagram
+    auth.users ||--o{ profiles : has
+    auth.users ||--o{ applications : submits
+    auth.users ||--o{ resumes : creates
+    auth.users ||--o{ interviews : takes
+    auth.users ||--o{ portfolios : owns
+    auth.users ||--o{ notifications : receives
+    auth.users ||--o{ alert_settings : configures
+    
+    jobs ||--o{ applications : receives
+    portfolios ||--o{ projects : contains
+    portfolios ||--o{ portfolio_views : tracks
+    
+    profiles {
+        uuid id PK
+        uuid user_id FK
+        text headline
+        text bio
+        text[] skills
+        jsonb experience
+        jsonb education
+        boolean availability
+        text remote_preference
+    }
+    
+    jobs {
+        uuid id PK
+        text title
+        text company
+        text location
+        text type
+        text experience_level
+        text remote
+        text salary
+        text description
+        text[] requirements
+        text[] benefits
+        boolean is_active
+    }
+    
+    applications {
+        uuid id PK
+        uuid user_id FK
+        uuid job_id FK
+        text cover_letter
+        text resume_url
+        enum status
+    }
+```
 
-## 🎉 Next Steps
+## 🎯 Next Steps
 
-Once Supabase is set up:
+After setting up the database:
 
-1. **Deploy to Vercel** with the environment variables
-2. **Test the full application** functionality
-3. **Add more sample data** if needed
-4. **Configure additional features** like:
-   - Email notifications
-   - Real-time updates
-   - Advanced analytics
+1. **Test the application locally**
+2. **Deploy to Vercel** with the same environment variables
+3. **Set up production environment variables** in Vercel dashboard
+4. **Configure production redirect URLs** in Supabase
 
-## 📝 Notes
+## 📞 Support
 
-- Keep your service role key secure and never expose it in client-side code
-- Regularly backup your database
-- Monitor your usage to stay within free tier limits
-- Consider upgrading to a paid plan for production use 
+If you encounter any issues:
+
+1. Check the Supabase logs in your dashboard
+2. Verify your environment variables
+3. Test the database connection
+4. Check the browser console for errors 
