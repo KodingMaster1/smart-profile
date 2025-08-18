@@ -393,10 +393,10 @@ export default async function JobDetailsPage({
               <div className="mt-6 pt-4 border-t border-gray-200">
                 <h4 className="text-sm font-medium text-gray-900 mb-2">Recommendations</h4>
                 <ul className="text-sm text-gray-600 space-y-1">
-                  {profile?.skills?.filter(skill => !job.requirements.includes(skill)).length > 0 && (
+                  {profile?.skills?.filter((skill: string) => !job.requirements.includes(skill)).length > 0 && (
                     <li>• Consider highlighting your additional skills</li>
                   )}
-                  {profile?.skills?.filter(skill => job.requirements.includes(skill)).length < job.requirements.length / 2 && (
+                  {profile?.skills?.filter((skill: string) => job.requirements.includes(skill)).length < job.requirements.length / 2 && (
                     <li>• Focus on learning missing key skills</li>
                   )}
                   <li>• Customize your cover letter for this role</li>
