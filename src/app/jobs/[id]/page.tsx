@@ -361,7 +361,7 @@ export default async function JobDetailsPage({
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-sm font-medium text-gray-700">Skills Match</span>
                     <span className="text-sm text-gray-900">
-                      {profile?.skills?.filter(skill => job.requirements.includes(skill)).length || 0}/{job.requirements.length}
+                      {profile?.skills?.filter((skill: string) => job.requirements.includes(skill)).length || 0}/{job.requirements.length}
                     </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
